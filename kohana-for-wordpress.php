@@ -467,9 +467,12 @@ function kohana( $kr ){
 
 
 /**
- * This is a replication of the Kohana internationalization support
- * Consider this a work in progress and hopefully a way to incorportate
- * Kohana's i18n featurs with Wordpress
+ * This is a replication of the Kohana magic function for i18n translations.
+ * 
+ * Currently by default a site running this plugin will use Wordpress' i10n
+ * class for language translation. However if you comment out the __() method
+ * in wp-includes/i10n.php then the method below ( Kohana's i18n model ) will 
+ * be used for language translation.
  * 
  * @param string $string
  * @param array $values
