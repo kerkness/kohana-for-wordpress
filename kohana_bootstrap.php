@@ -10,7 +10,7 @@
  * @see  http://docs.kohanaphp.com/features/localization#time
  * @see  http://php.net/timezones
  */
-date_default_timezone_set(get_option('kohana_default_time_zone'));
+date_default_timezone_set('America/Chicago');
 
 /**
  * Enable the Kohana auto-loader.
@@ -48,7 +48,12 @@ set_error_handler(array('Kohana', 'error_handler'));
  * - profile:    enable or disable internal profiling
  * - caching:    enable or disable internal caching
  */
-Kohana::init(array('charset' => 'utf-8', 'base_url' => get_option('kohana_base_url') ));
+
+$kohana_base_url = str_replace(get_option('home'),'',get_option('siteurl') );
+if( ! $kohana_base_url ) {
+	$kohana_base_url = '/';
+}
+Kohana::init(array('charset' => 'utf-8', 'base_url' => $kohana_base_url ));
 
 /**		**** Enable modules as defined in plugin settings
  * Enable modules. Modules are referenced by a relative or absolute path.

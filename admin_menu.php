@@ -163,6 +163,14 @@ Your Kohana Front Loader is : <a href="<?php print $my_kohana_front ?>"><?php pr
 	<input type="text" name="kohana_system_path" value="<?php echo get_option('kohana_system_path'); ?>" size="40" aria-required="true" />	
     <p>Enter the full path to your Kohana system folder.</p>
 </div>
+
+<div class="form-field form-required">
+	<label for="name"><strong>Custom Bootstrap Path</strong></label>
+	<input type="text" name="kohana_system_path" value="<?php echo get_option('kohana_bootstrap_path'); ?>" size="40" aria-required="true" />	
+    <p>If you want to use a custom bootstrap file then define the path here. Note you should use the file 
+    <i>plugins/kohana-for-wordpress/kohana_bootstrap.php</i> as an example.</p>
+</div>
+
 <div class="form-field form-required">
 	<label for="name"><strong>Kohana File Extension</strong></label>
 	<input type="text" name="kohana_ext" value="<?php echo get_option('kohana_ext'); ?>" size="40" aria-required="true" />	
@@ -176,18 +184,6 @@ Your Kohana Front Loader is : <a href="<?php print $my_kohana_front ?>"><?php pr
 	 <option value="replace" <?php if( get_option('kohana_default_placement')=='replace') echo 'selected="true"'; ?>>Replace Page Content</option> 
 	</select>
     <p>Define if your want the results of Kohana controller requests to replace wordpress content or display before or after wordpress content.</p>
-</div>
-
-<div class="form-field form-required">
-	<label for="name"><strong>Default Time Zome</strong></label>
-	<input type="input" name="kohana_default_time_zone" value="<?php print get_option('kohana_default_time_zone')?>"  />	
-    <p>Set your default time zone to be used by Kohana. See http://php.net/timezones</p>
-</div>
-
-<div class="form-field form-required">
-	<label for="name"><strong>Kohana Base URL</strong></label>
-	<input type="input" name="kohana_base_url" value="<?php print get_option('kohana_base_url')?>"  />	
-    <p>Path, and optionally domain, of your application</p>
 </div>
 
 <div class="form-field form-required">
@@ -221,7 +217,7 @@ Your Kohana Front Loader is : <a href="<?php print $my_kohana_front ?>"><?php pr
 
 
   <input type="hidden" name="action" value="update" />
-  <input type="hidden" name="page_options" value="kohana_default_id,kohana_default_action,kohana_default_controller,kohana_modules,kohana_default_time_zone,kohana_base_url,kohana_system_path,kohana_module_path,kohana_ext,kohana_application_path,kohana_front_loader_in_nav,kohana_process_all_uri,kohana_default_placement" />
+  <input type="hidden" name="page_options" value="kohana_bootstrap_path,kohana_default_id,kohana_default_action,kohana_default_controller,kohana_modules,kohana_default_time_zone,kohana_base_url,kohana_system_path,kohana_module_path,kohana_ext,kohana_application_path,kohana_front_loader_in_nav,kohana_process_all_uri,kohana_default_placement" />
 <p class="submit"><input class="button" name="submit" value="Update Kohana Options" type="submit"></p>
 
 </form>

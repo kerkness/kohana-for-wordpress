@@ -29,17 +29,18 @@ add_filter('single_post_title','kohana_title_filter');
 add_filter('get_pages','kohana_page_filter');
 
 /**
- * Include the Widget Class File 
- */
-require 'kohana_widget.php';
-
-/**
  * If plugin has already been set up
  * Include bootstrap.php which sets up the Kohana environment so
  * that it's ready for a request if given one.
  */ 
 if( get_option('kohana_system_path') && get_option('kohana_ext') && get_option('kohana_module_path') ){
-	require 'bootstrap.php';
+	require 'kohana_index.php';
+	if( get_option('kohana_bootstrap_path') ) {
+		require get_option('kohana_bootstrap_path');
+	} else {
+		require 'kohana_bootstrap.php';
+	}
+	require 'kohana_widget.php';
 }
 
 /**
@@ -67,10 +68,9 @@ function kohana_activate()
 	add_option('kohana_system_path', WP_PLUGIN_DIR . '/kohana-for-wordpress/kohana/system/');
 	add_option('kohana_module_path', WP_PLUGIN_DIR . '/kohana-for-wordpress/kohana/modules/');
 	add_option('kohana_application_path', WP_PLUGIN_DIR . '/kohana-for-wordpress/kohana/application/');
+	add_option('kohana_bootstrap_path', WP_PLUGIN_DIR . '');
 	add_option('kohana_ext', '.php' );
-	add_option('kohana_default_time_zone', 'America/Chicago');
 	add_option('kohana_modules', '');
-	add_option('kohana_base_url', '/');
 	add_option('kohana_default_controller', 'welcome' );
 	add_option('kohana_default_action', 'index' );
 	add_option('kohana_default_id', '' );
@@ -94,11 +94,10 @@ function kohana_deactivate()
 	delete_option('kohana_system_path');
 	delete_option('kohana_modules_path');
 	delete_option('kohana_application_path');
+	delete_option('kohana_bootstrap_path');
 	delete_option('kohana_ext');
 	delete_option('kohana_front_loader_in_nav');
-	delete_option('kohana_default_time_zone');
 	delete_option('kohana_modules');
-	delete_option('kohana_base_url');
 	delete_option('kohana_default_controller');
 	delete_option('kohana_default_action');
 	delete_option('kohana_default_id');
