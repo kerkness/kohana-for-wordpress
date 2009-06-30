@@ -166,7 +166,7 @@ Your Kohana Front Loader is : <a href="<?php print $my_kohana_front ?>"><?php pr
 
 <div class="form-field form-required">
 	<label for="name"><strong>Custom Bootstrap Path</strong></label>
-	<input type="text" name="kohana_system_path" value="<?php echo get_option('kohana_bootstrap_path'); ?>" size="40" aria-required="true" />	
+	<input type="text" name="kohana_bootstrap_path" value="<?php echo get_option('kohana_bootstrap_path'); ?>" size="40" aria-required="true" />	
     <p>If you want to use a custom bootstrap file then define the path here. Note you should use the file 
     <i>plugins/kohana-for-wordpress/kohana_bootstrap.php</i> as an example.</p>
 </div>

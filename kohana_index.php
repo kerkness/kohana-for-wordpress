@@ -21,7 +21,8 @@ $modules = get_option('kohana_module_path');
  *
  * @see  http://docs.kohanaphp.com/install#system
  */
-$system = get_option('kohana_system_path');
+//$system = get_option('kohana_system_path');
+$system = '/home/kerkness/mayberry/kohana/system/';
 
 /**
  * The default extension of resource files. If you change this, all resources
@@ -81,7 +82,8 @@ define('KOHANA_START_TIME', microtime(TRUE));
 
 // Load the main Kohana class			***** Include Kohana class from path defined in kohana settings
 // require SYSPATH.'classes/kohana'.EXT;
-require get_option('kohana_system_path').'classes/kohana'.get_option('kohana_ext');
+require '/home/kerkness/mayberry/kohana/system/classes/kohana'.get_option('kohana_ext');
+//require get_option('kohana_system_path').'classes/kohana'.get_option('kohana_ext');
 
 // Bootstrap the application			***** Not including bootstrap in application path.
 // require APPPATH.'bootstrap'.EXT;

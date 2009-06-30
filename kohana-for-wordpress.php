@@ -1,22 +1,22 @@
 <?php 
-
 #     /* 
 #     Plugin Name: Kohana-for-Wordpress 
 #     Plugin URI: http://www.kerkness.ca/kohana 
 #     Description: Enables the integration of Kohana PHP Applications with Wordpress
 #     Author: Ryan Kerk Mayberry 
-#     Version: 1.0.1 
+#     Version: 1.2
 #     Author URI: http://www.kerkness.ca 
 #     */   
-//ini_set('error_log','/var/log/php-error.log');
+ini_set('error_log','/var/log/php-error.log');
 
 /**
  * Register Actions
  */
-register_activation_hook( __FILE__, 'kohana_activate' );
-register_deactivation_hook( __FILE__, 'kohana_deactivate' );
+register_activation_hook( 'kohana-for-wordpress/kohana-for-wordpress.php', 'kohana_activate' );
+register_deactivation_hook( 'kohana-for-wordpress/kohana-for-wordpress.php', 'kohana_deactivate' );
 add_action('admin_menu', 'kohana_register_admin_menu');
 add_action('widgets_init', create_function('', 'return register_widget("KohanaWidget");'));
+
 
 /**
  * Register Filters
@@ -27,21 +27,22 @@ add_filter('the_content', 'kohana_the_content_filter');
 add_filter('the_title','kohana_title_filter');
 add_filter('single_post_title','kohana_title_filter');
 add_filter('get_pages','kohana_page_filter');
+add_filter( 'plugin_row_meta', 'set_plugin_meta', 10, 2 );
 
 /**
  * If plugin has already been set up
  * Include bootstrap.php which sets up the Kohana environment so
  * that it's ready for a request if given one.
  */ 
-if( get_option('kohana_system_path') && get_option('kohana_ext') && get_option('kohana_module_path') ){
+if( get_option('kohana_system_path') && get_option('kohana_ext') ){
 	require 'kohana_index.php';
 	if( get_option('kohana_bootstrap_path') ) {
 		require get_option('kohana_bootstrap_path');
 	} else {
 		require 'kohana_bootstrap.php';
 	}
-	require 'kohana_widget.php';
 }
+require 'kohana_widget.php';
 
 /**
  * Function is called when plugin is activated by wordpress
@@ -52,6 +53,8 @@ if( get_option('kohana_system_path') && get_option('kohana_ext') && get_option('
  */ 
 function kohana_activate()
 {
+	error_log('activating kohana plugin');
+	
 	// Create a page in word press to act as the kohana frontloader
 	$my_post = array();
 	$my_post['post_title'] = 'Kohana';
@@ -68,7 +71,7 @@ function kohana_activate()
 	add_option('kohana_system_path', WP_PLUGIN_DIR . '/kohana-for-wordpress/kohana/system/');
 	add_option('kohana_module_path', WP_PLUGIN_DIR . '/kohana-for-wordpress/kohana/modules/');
 	add_option('kohana_application_path', WP_PLUGIN_DIR . '/kohana-for-wordpress/kohana/application/');
-	add_option('kohana_bootstrap_path', WP_PLUGIN_DIR . '');
+	add_option('kohana_bootstrap_path', '');
 	add_option('kohana_ext', '.php' );
 	add_option('kohana_modules', '');
 	add_option('kohana_default_controller', 'welcome' );
@@ -86,6 +89,8 @@ function kohana_activate()
  */
 function kohana_deactivate()
 {
+	error_log('deactivating kohana plugin');
+	
 	wp_delete_post( get_option('kohana_front_loader') );
 	
 	delete_option('kohana_front_loader');
@@ -126,6 +131,23 @@ function kohana_admin_menu()
 {
 	include_once dirname(__FILE__) . '/admin_menu.php';	
 }
+
+/**
+ * Add settings link to plugin admin page
+ */
+function set_plugin_meta($links, $file) {
+	$plugin = plugin_basename(__FILE__);
+	// create link
+	if ($file == $plugin) {
+		return array_merge(
+		$links,
+		array( sprintf( '<a href="options-general.php?page=%s">%s</a>', 
+		'Kohana', __('Settings') ) )
+		);
+	}
+	return $links;
+}
+
 
 /**
  * Function returns false if Kohana is not set up and if we are in the admin
@@ -469,23 +491,30 @@ function kohana( $kr ){
  * This is a replication of the Kohana magic function for i18n translations.
  * 
  * Currently by default a site running this plugin will use Wordpress' i10n
- * class for language translation. However if you comment out the __() method
- * in wp-includes/i10n.php then the method below ( Kohana's i18n model ) will 
- * be used for language translation.
+ * class and the wordpress __() method for language translation.
  * 
  * @param string $string
  * @param array $values
  * @return string
  */
+function __k($string, array $values = NULL)
+{
+	if (I18n::$lang !== I18n::$default_lang)
+	{
+		// Get the translation for this string
+		$string = I18n::get($string);
+	}
+	return empty($values) ? $string : strtr($string, $values);
+}
+
+/**
+ * Enable Kohana translations to be default.
+ * Comment out the method __() in wp-includes/i10n.php
+ */
 if( ! function_exists('__') ){
 	function __($string, array $values = NULL)
 	{
-		if (I18n::$lang !== I18n::$default_lang)
-		{
-			// Get the translation for this string
-			$string = I18n::get($string);
-		}
-		return empty($values) ? $string : strtr($string, $values);
+		return __k( $string, $values );
 	}
 }
 
