@@ -1,6 +1,6 @@
 <?php
 /**
- * FooWidget Class
+ * KohanaWidget Class
  */
 class KohanaWidget extends WP_Widget {
     /** constructor */
