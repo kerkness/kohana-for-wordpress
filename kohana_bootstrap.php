@@ -1,6 +1,6 @@
 <?php
 
-// Recreate the Kohana index.php process with modifications
+// Recreate the Kohana application/bootstrap.php process with some modifications
 	
 //-- Environment setup --------------------------------------------------------
 
