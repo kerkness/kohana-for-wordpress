@@ -1,5 +1,7 @@
 <?php
 
+// recreate Kohana 3.0 index.php file with some modifications
+
 /**
  * The directory in which your application specific resources are located.
  * The application directory must contain the config/kohana.php file.
@@ -21,8 +23,7 @@ $modules = get_option('kohana_module_path');
  *
  * @see  http://docs.kohanaphp.com/install#system
  */
-//$system = get_option('kohana_system_path');
-$system = '/home/kerkness/mayberry/kohana/system/';
+$system = get_option('kohana_system_path');
 
 /**
  * The default extension of resource files. If you change this, all resources
@@ -82,8 +83,7 @@ define('KOHANA_START_TIME', microtime(TRUE));
 
 // Load the main Kohana class			***** Include Kohana class from path defined in kohana settings
 // require SYSPATH.'classes/kohana'.EXT;
-require '/home/kerkness/mayberry/kohana/system/classes/kohana'.get_option('kohana_ext');
-//require get_option('kohana_system_path').'classes/kohana'.get_option('kohana_ext');
+require get_option('kohana_system_path').'classes/kohana'.get_option('kohana_ext');
 
 // Bootstrap the application			***** Not including bootstrap in application path.
 // require APPPATH.'bootstrap'.EXT;
