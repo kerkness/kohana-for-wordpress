@@ -122,7 +122,29 @@ function kohana_deactivate()
 function kohana_register_admin_menu()
 {
 	add_options_page("Kohana", "Kohana", 1, "Kohana", "kohana_admin_menu");  
+	//add_menu_page('Test Toplevel', 'Test Toplevel', 0, "Kohana", 'kohana_admin_menu');
 }
+/*
+function filter_admin_menu()
+{
+	global $menu;
+	$new[] = array_shift( $menu );
+	$new[] = array
+        (
+            '0' => 'Kohana',
+            '1' => 0,
+            '2' => 'Kohana',
+            '3' => 'Kohana',
+            '4' => 'menu-top toplevel_page_Kohana',
+            '5' => 'toplevel_page_Kohana',
+            '6' => 'images/generic.png',
+        );
+
+	$menu = array_merge($new, $menu);
+}
+add_filter('admin_menu','filter_admin_menu');
+*/
+
 /**
  * Function includes the Kohana options/admin page for diplay
  * @return 
@@ -306,7 +328,7 @@ function kohana_parse_request()
 	$kr = '';
 	
 	if( $_GET['kr'] ) {
-		$kr = $_GET['kr'];		 
+		$kr = $_GET['kr'];	
 	} else {
 		$kr = str_replace('?'.$_SERVER['QUERY_STRING'],'',$_SERVER['REQUEST_URI']);
 		if( get_option('kohana_base_url') != '/' ){
@@ -483,6 +505,7 @@ function kohana_request($kr)
  * @param string 	the kohana request to call..  eg:  welcome/index
  */
 function kohana( $kr ){
+	if( ! $kr ) return '';
 	echo Request::factory($kr)->execute()->response;
 }
 
@@ -517,4 +540,3 @@ if( ! function_exists('__') ){
 		return __k( $string, $values );
 	}
 }
-

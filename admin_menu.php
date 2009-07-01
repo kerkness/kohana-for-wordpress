@@ -47,7 +47,7 @@ foreach( $all_options as $op_name=>$op_value ){
 	}
 }
 
-$option_set = ( get_option('kohana_path') && get_option('kohana_application_path') ) ? true : false ;
+$option_set = ( get_option('kohana_system_path') && get_option('kohana_application_path') ) ? true : false ;
 $has_routes = ( $routes ) ? true : false;
 
 

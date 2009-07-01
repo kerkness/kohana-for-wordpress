@@ -16,7 +16,7 @@ class KohanaWidget extends WP_Widget {
                   <?php echo $before_title
                       . $instance['title']
                       . $after_title; ?>
-                  <?php echo Request::factory($instance['kohana_request'])->execute()->response ?>
+                  <?php kohana($instance['kohana_request']) ?>
               <?php echo $after_widget; ?>
         <?php
     }

@@ -10,7 +10,7 @@
  * @see  http://docs.kohanaphp.com/features/localization#time
  * @see  http://php.net/timezones
  */
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set(get_option('timezone_string'));
 
 /**
  * Enable the Kohana auto-loader.
