@@ -124,7 +124,7 @@ function kohana_register_admin_menu()
 	add_options_page("Kohana", "Kohana", 1, "Kohana", "kohana_admin_menu");  
 	//add_menu_page('Test Toplevel', 'Test Toplevel', 0, "Kohana", 'kohana_admin_menu');
 }
-/*
+/* Testing ** Will be removed
 function filter_admin_menu()
 {
 	global $menu;
@@ -172,7 +172,7 @@ function set_plugin_meta($links, $file) {
 
 
 /**
- * Function returns false if Kohana is not set up and if we are in the admin
+ * Function returns false if Kohana is not set up
  * @return 
  */
 function should_kohana_run()
@@ -396,11 +396,11 @@ function kohana_page_filter($pages)
 
 /**
  * Function provides a filter on the main wp class. 
- * This filter is run called after wp has been completely loaded and created
+ * This filter is called after wp has been completely loaded and created
  * but before any content is loaded.
  * 
  * If a Kohana request was found when filtering the wp request then this is where we 
- * load the actual Kohana controller via the kohana_request() function.
+ * create the first Kohana Request object via the kohana_request() function.
  * 
  * Output from the Kohana request is placed into the wp class so that it is available
  * when it comes time to display the combined wp and Kohana results.
@@ -486,14 +486,11 @@ function kohana_title_filter($title)
 }
 
 /**
- * This function calls a Kohana controller by placing the Kohana request into _GET['kohana_uri'] 
- * and including the real kohana front loader or index.php file ( as defined in our options )
- * 
- * Results from kohana are loaded into an output buffer and then returned by the function as a string.
- * Before we return the results we pull the title out of main Kohana class object.
+ * This function creates and executes a Kohana Request object.
+ * If this request has a title defined this is added to the wp global object
  *
  * @param string $kr
- * @return string
+ * @return string  The response from the Kohana Request
  */
 function kohana_request($kr)
 {
@@ -514,7 +511,7 @@ function kohana_request($kr)
 
 /**
  * This function is inteded to be used in template files.  It will print out the response
- * from a valid Kohana request.
+ * from a Kohana request.
  * @param string 	the kohana request to call..  eg:  welcome/index
  */
 function kohana( $kr ){
@@ -525,7 +522,8 @@ function kohana( $kr ){
 
 /**
  * This is a replication of the Kohana magic function for i18n translations.
- * 
+ * For use in application/views if you're leaving Wordpress i10n class to handle translations.
+ *
  * Currently by default a site running this plugin will use Wordpress' i10n
  * class and the wordpress __() method for language translation.
  * 
