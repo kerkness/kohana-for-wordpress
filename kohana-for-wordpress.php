@@ -447,8 +447,21 @@ function kohana_the_content_filter($content)
 				break;
 		}
 	}
+	
+	
+	// Look for any Kohana requests that are dropped directly into the content
+	$tag = "/\[request(.*?)\]/";
+	
+	if(preg_match_all($tag, $content, $matches))
+	{
+		foreach( $matches[1] as $i=>$match ) {
+			$content = str_replace('[request '.trim($match).']', kohana_request(trim($match) ), $content);
+		}
+	}
+		
 	return $content;
 }
+
 
 /**
  * Function provides a filter on the title of the wordpress our post/page.

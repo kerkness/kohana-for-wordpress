@@ -13,9 +13,13 @@ class KohanaWidget extends WP_Widget {
         extract( $args );
         ?>
               <?php echo $before_widget; ?>
-                  <?php echo $before_title
+                  <?php 
+                  if( $instance['title'] ){
+                  echo $before_title
                       . $instance['title']
-                      . $after_title; ?>
+                      . $after_title; 
+                  }
+                   ?>
                   <?php kohana($instance['kohana_request']) ?>
               <?php echo $after_widget; ?>
         <?php
