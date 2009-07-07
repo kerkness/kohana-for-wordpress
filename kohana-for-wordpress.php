@@ -7,7 +7,7 @@
 #     Version: 1.2
 #     Author URI: http://www.kerkness.ca 
 #     */   
-ini_set('error_log','/var/log/php-error.log');
+// ini_set('error_log','/var/log/php-error.log');
 
 /**
  * Register Actions
@@ -414,7 +414,7 @@ function kohana_wp_filter($wp)
 	if( ! should_kohana_run() ) return $wp;	
 	
 	if( $wp->kohana->request ) {
-		$wp->kohana->content = kohana_request( $wp->kohana->request );
+		$wp->kohana->content = kohana_page_request( $wp->kohana->request );
 	}
 	return $wp;
 }
@@ -450,12 +450,12 @@ function kohana_the_content_filter($content)
 	
 	
 	// Look for any Kohana requests that are dropped directly into the content
-	$tag = "/\[request(.*?)\]/";
-	
+	$tag = "/\[request(.*?)\\]/";
+	$matches = array();
 	if(preg_match_all($tag, $content, $matches))
 	{
 		foreach( $matches[1] as $i=>$match ) {
-			$content = str_replace('[request '.trim($match).']', kohana_request(trim($match) ), $content);
+			$content = str_replace('[request '.trim($match).']', kohana_request( trim($match) ), $content);
 		}
 	}
 		
@@ -492,7 +492,7 @@ function kohana_title_filter($title)
  * @param string $kr
  * @return string  The response from the Kohana Request
  */
-function kohana_request($kr)
+function kohana_page_request($kr)
 {
 	if( ! should_kohana_run() ) return '';
 	global $wp;
@@ -504,19 +504,27 @@ function kohana_request($kr)
 	if( $req->title ){
 		$wp->kohana->title = $req->title;
 	}
-	
 	return $req->response;	
-	
 }
 
 /**
- * This function is inteded to be used in template files.  It will print out the response
- * from a Kohana request.
- * @param string 	the kohana request to call..  eg:  welcome/index
+ * Function intended to be used by template files. Returns the response from a Kohana request
+ *
+ * @param string $kr
+ * @return string
+ */
+function kohana_request( $kr )
+{
+	if( ! $kr ) return '';
+	return Request::factory($kr)->execute()->response;
+}
+
+/**
+ * For use with template files. Echo's the result of kohana_request
+ * @param string $kr
  */
 function kohana( $kr ){
-	if( ! $kr ) return '';
-	echo Request::factory($kr)->execute()->response;
+	echo kohana_request( $kr );
 }
 
 
