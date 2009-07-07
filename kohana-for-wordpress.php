@@ -7,7 +7,6 @@
 #     Version: 1.2
 #     Author URI: http://www.kerkness.ca 
 #     */   
-// ini_set('error_log','/var/log/php-error.log');
 
 /**
  * Register Actions
@@ -122,28 +121,7 @@ function kohana_deactivate()
 function kohana_register_admin_menu()
 {
 	add_options_page("Kohana", "Kohana", 1, "Kohana", "kohana_admin_menu");  
-	//add_menu_page('Test Toplevel', 'Test Toplevel', 0, "Kohana", 'kohana_admin_menu');
 }
-/* Testing ** Will be removed
-function filter_admin_menu()
-{
-	global $menu;
-	$new[] = array_shift( $menu );
-	$new[] = array
-        (
-            '0' => 'Kohana',
-            '1' => 0,
-            '2' => 'Kohana',
-            '3' => 'Kohana',
-            '4' => 'menu-top toplevel_page_Kohana',
-            '5' => 'toplevel_page_Kohana',
-            '6' => 'images/generic.png',
-        );
-
-	$menu = array_merge($new, $menu);
-}
-add_filter('admin_menu','filter_admin_menu');
-*/
 
 /**
  * Function includes the Kohana options/admin page for diplay
