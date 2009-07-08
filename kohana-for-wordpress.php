@@ -532,8 +532,11 @@ function __k($string, array $values = NULL)
  * Comment out the method __() in wp-includes/i10n.php
  */
 if( ! function_exists('__') ){
-	function __($string, array $values = NULL)
+	function __($string, $values = NULL)
 	{
+		if( ! is_array($values ) ){
+			$values = array( $values );
+		}
 		return __k( $string, $values );
 	}
 }
