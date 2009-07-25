@@ -5,6 +5,13 @@
 //-- Environment setup --------------------------------------------------------
 
 /**
+* You can extend the Kohana class here or include file that extends it here.
+*
+* @see http://docs.kohanaphp.com/extensions/core
+*/
+final class Kohana extends Kohana_Core {}
+
+/**
  * Set the default time zone.
  *
  * @see  http://docs.kohanaphp.com/features/localization#time
@@ -65,10 +72,14 @@ foreach( $k_mods as $km ){
 Kohana::modules($mods);
 
 /**
- * Attach the file write to logging. Any Kohana_Log object can be attached,
- * and multiple writers are supported.
- */
+* Attach the file write to logging. Multiple writers are supported.
+*/
 Kohana::$log->attach(new Kohana_Log_File(APPPATH.'logs'));
+ 
+/**
+* Attach a file reader to config. Multiple readers are supported.
+*/
+Kohana::$config->attach(new Kohana_Config_File);
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of

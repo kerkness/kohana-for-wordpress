@@ -517,26 +517,41 @@ function kohana( $kr ){
  * @param array $values
  * @return string
  */
-function __k($string, array $values = NULL)
+function __k($string, array $values = NULL, $lang = 'en-us')
 {
-	if (I18n::$lang !== I18n::$default_lang)
+	if ($lang !== I18n::$lang)
 	{
-		// Get the translation for this string
+		// The message and target languages are different
+		// Get the translation for this message
 		$string = I18n::get($string);
 	}
+
 	return empty($values) ? $string : strtr($string, $values);
 }
-
 /**
  * Enable Kohana translations to be default.
  * Comment out the method __() in wp-includes/i10n.php
  */
 if( ! function_exists('__') ){
-	function __($string, $values = NULL)
+	
+	
+	function __($string, $values = NULL, $lang = 'en-us')
 	{
-		if( ! is_array($values ) ){
-			$values = array( $values );
+		if( ! is_array( $values ) ){
+			$temp = $values;
+			$values = array();
+			$values[] = $temp;
 		}
-		return __k( $string, $values );
-	}
+		
+		if ($lang !== I18n::$lang)
+		{
+			// The message and target languages are different
+			// Get the translation for this message
+			$string = I18n::get($string);
+		}
+	
+		return empty($values) ? $string : strtr($string, $values);
+	}	
+	
+	
 }
