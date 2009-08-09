@@ -4,7 +4,7 @@ Donate link: http://kerkness.ca/kohana-for-wordpress
 Tags: kohana, developer, extend, plugin
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 1.0.1
+Stable tag: 2.0.0
 
 Plugin for running the Kohana 3.0 framework inside of Wordpress
 
@@ -23,6 +23,10 @@ Kohana for Wordpress has been built and tested using Wordpress 2.8 and Kohana 3.
 
 If you don't have Kohana 3.0 installed you can get it at the following link.
 http://dev.kohanaphp.com/projects/kohana3/files
+
+**Support**
+
+Get plugin support at http://forum.kohanaphp.com
 
 == Installation ==
 
