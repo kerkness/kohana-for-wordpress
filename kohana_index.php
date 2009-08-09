@@ -81,9 +81,19 @@ define('KOHANA_START_TIME', microtime(TRUE));
 // Load the base, low-level functions	***** Not including base.php 
 // require SYSPATH.'base'.EXT;
 
-// Load the main Kohana class			***** Include Kohana class from path defined in kohana settings
-// require SYSPATH.'classes/kohana'.EXT;
-require get_option('kohana_system_path').'classes/kohana'.get_option('kohana_ext');
+// Load the core Kohana class			***** Include Kohana class from path defined in kohana settings
+require get_option('kohana_system_path').'classes/kohana/core'.get_option('kohana_ext');
+ 
+if (is_file(get_option('kohana_application_path').'classes/kohana'.get_option('kohana_ext')))
+{
+	// Application extends the core
+	require get_option('kohana_application_path').'classes/kohana'.get_option('kohana_ext');
+}
+else
+{
+	// Load empty core extension
+	require get_option('kohana_system_path').'classes/kohana'.get_option('kohana_ext');
+}
 
 // Bootstrap the application			***** Not including bootstrap in application path.
 // require APPPATH.'bootstrap'.EXT;
