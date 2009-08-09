@@ -22,11 +22,11 @@ Kohana is a PHP 5 framework that aims to be secure, lightweight, and easy to use
 Kohana for Wordpress has been built and tested using Wordpress 2.8 and Kohana 3.0
 
 If you don't have Kohana 3.0 installed you can get it at the following link.
-http://github.com/shadowhand/kohana/downloads
+http://dev.kohanaphp.com/projects/kohana3/files
 
 == Installation ==
 
-* Download and install Kohana 3.0 from here http://github.com/shadowhand/kohana/downloads
+* Download and install Kohana 3.0 from here http://dev.kohanaphp.com/projects/kohana3/files
 * Download and install the plugin into your *wp-content/plugins* folder
 * activate plugin
 * adjust settings for the plugin and set correct path to kohana system folders
