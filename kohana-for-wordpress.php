@@ -8,6 +8,8 @@
 #     Author URI: http://www.kerkness.ca 
 #     */   
 
+ini_set('error_log','/var/log/php-error.log');
+
 /**
  * Register Actions
  */
@@ -33,7 +35,7 @@ add_filter( 'plugin_row_meta', 'set_plugin_meta', 10, 2 );
  * Include bootstrap.php which sets up the Kohana environment so
  * that it's ready for a request if given one.
  */ 
-if( get_option('kohana_system_path') && get_option('kohana_ext') ){
+if( should_kohana_run() ){
 	require 'kohana_index.php';
 	if( get_option('kohana_bootstrap_path') ) {
 		require get_option('kohana_bootstrap_path');
@@ -73,8 +75,8 @@ function kohana_activate()
 	add_option('kohana_bootstrap_path', '');
 	add_option('kohana_ext', '.php' );
 	add_option('kohana_modules', '');
-	add_option('kohana_default_controller', 'welcome' );
-	add_option('kohana_default_action', 'index' );
+	add_option('kohana_default_controller', '' );
+	add_option('kohana_default_action', '' );
 	add_option('kohana_default_id', '' );
 	add_option('kohana_front_loader_in_nav', 0);
 }
@@ -155,9 +157,19 @@ function set_plugin_meta($links, $file) {
  */
 function should_kohana_run()
 {
+	// If options are not set then return false
 	if( ! get_option('kohana_system_path') && ! get_option('kohana_application_path') ){
 			return false;
 	}
+	// If main kohana class file is not found in system path return false
+	if( ! is_file( get_option('kohana_system_path') . 'classes/kohana.php' ) )
+		return false;
+		
+	// If default route not set return false
+	if( ! get_option('kohana_default_controller') OR ! get_option('kohana_default_action') )
+		return false;
+
+	// We should be good to go, return true.	
 	return true;
 }
 

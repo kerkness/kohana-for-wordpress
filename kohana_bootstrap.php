@@ -5,13 +5,6 @@
 //-- Environment setup --------------------------------------------------------
 
 /**
-* You can extend the Kohana class here or include file that extends it here.
-*
-* @see http://docs.kohanaphp.com/extensions/core
-*/
-final class Kohana extends Kohana_Core {}
-
-/**
  * Set the default time zone.
  *
  * @see  http://docs.kohanaphp.com/features/localization#time
