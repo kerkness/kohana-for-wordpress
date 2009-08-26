@@ -360,6 +360,13 @@ function kohana_parse_request()
 	if( $kr && is_file( get_option('kohana_application_path') .'classes/controller/'.$k_controller.get_option('kohana_ext') ) ){
 		return $kr;
 	}
+	
+	// Look for a defined route
+	if( $kr && Route::get($k_controller) ){
+		return $kr;
+	}
+	
+	
 	return '';
 }
 
