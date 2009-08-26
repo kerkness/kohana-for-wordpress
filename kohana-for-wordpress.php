@@ -328,7 +328,7 @@ function kohana_parse_request()
 	// Remove index.php from our string
 	$kr = str_replace('/index.php','',$kr);
 	
-	error_log("Starting point Examining KR: $kr");
+	//error_log("Starting point Examining KR: $kr");
 	
 	// Remove slash from front kr string
 	if( substr($kr,0,1) == '/' ){
@@ -339,13 +339,13 @@ function kohana_parse_request()
 	if( substr($kr,-1) == '/' ){
 		$kr = substr( $kr,0,-1 );
 	}
-	error_log("Removed starting slash Examining KR: $kr");
+	//error_log("Removed starting slash Examining KR: $kr");
 	
 	// check for presense of the kohana front loader slug
 	if( $wp->kohana->front_loader_slug == substr( $kr, 0, strlen($wp->kohana->front_loader_slug) ) ){
 		$kr = substr($kr, strlen($wp->kohana->front_loader_slug.'/') );
 	}
-	error_log("Removed front loader slug Examining KR: $kr");
+	//error_log("Removed front loader slug Examining KR: $kr");
 	
 	// Get the controller name.
 	if( strpos($kr,'/') ){ 
@@ -355,15 +355,24 @@ function kohana_parse_request()
 	}
 	if( $k_controller && ! $kr ) $kr = 'index';
 	
-	error_log("Found Controller = $k_controller :: Examining: $kr");
+	//error_log("Found Controller = $k_controller :: Examining: $kr");
 	// Check for the presence of a kohana controller for current request
 	if( $kr && is_file( get_option('kohana_application_path') .'classes/controller/'.$k_controller.get_option('kohana_ext') ) ){
 		return $kr;
 	}
 	
 	// Look for a defined route
-	if( $kr && Route::get($k_controller) ){
-		return $kr;
+	if( $kr )
+	{
+		try 
+		{
+			if( Route::get($k_controller) ){
+				return $kr;
+			}
+		}
+		catch ( Kohana_Exception $e ) {
+			// Do nothing on exception
+		}
 	}
 	
 	
