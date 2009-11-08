@@ -193,11 +193,14 @@ Your Kohana Front Loader is : <a href="<?php print $my_kohana_front ?>"><?php pr
 </div>
 
 <div class="form-field form-required">
-	<label for="name"><strong>Kohana Default Controller / Action / ID </strong></label>
+	<label for="kohana_default_controller"><strong>Kohana Default Controller </strong> ** </label>
 	<input type="input" name="kohana_default_controller" value="<?php print get_option('kohana_default_controller')?>"  />	
+	<label for="kohana_default_action"><strong>Kohana Default Action </strong> ** </label>
 	<input type="input" name="kohana_default_action" value="<?php print get_option('kohana_default_action')?>"  />	
+	<label for="kohana_default_id"><strong>Kohana Default ID </strong></label>
 	<input type="input" name="kohana_default_id" value="<?php print get_option('kohana_default_id')?>"  />	
-    <p>Enter the default controller, action and optional id for your kohana application</p>
+    <p>Enter the default controller, action and optional id for your kohana application.</p>
+    <p>** You must set at least a default controller and action or Kohana environment will never be created at runtime.</p>
 </div>
 
 <div class="form-field form-required">
