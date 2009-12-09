@@ -516,6 +516,7 @@ function kohana_page_request($kr)
 		    $wp_query->set_404();
 			return 'Page Not Found';
 		}
+        throw $e;
 	}
 	
 	if( $req->title ){
