@@ -200,6 +200,18 @@ Your Kohana Front Loader is : <a href="<?php print $my_kohana_front ?>"><?php pr
     <p>Enter the default controller, action and optional id for your kohana application</p>
 </div>
 
+<?php if ( 0 != count( get_page_templates() ) ) { ?>
+<div class="form-field">
+	<label for="kohana_page_template"><strong>Kohana Page Template</strong></label>
+	<select name="kohana_page_template" id="kohana_page_template">
+	<option value='default'>Default Template</option>
+	<?php page_template_dropdown(get_option('kohana_page_template')); ?>
+	</select>
+	<p>If your theme has custom templates, you can select one to be used for all Kohana requests.
+	This will override templates assigned to any mapped pages.</p>
+</div>
+<?php } ?>
+
 <div class="form-field form-required">
 	<label for="name"><strong>Include Kohana Front Loader in Wordpress Navigation</strong></label>
 	<input type="checkbox" name="kohana_front_loader_in_nav" value="1" <?php print ( get_option('kohana_front_loader_in_nav') ) ? 'checked="true"' : '' ?>  />	
@@ -217,7 +229,7 @@ Your Kohana Front Loader is : <a href="<?php print $my_kohana_front ?>"><?php pr
 
 
   <input type="hidden" name="action" value="update" />
-  <input type="hidden" name="page_options" value="kohana_bootstrap_path,kohana_default_id,kohana_default_action,kohana_default_controller,kohana_modules,kohana_default_time_zone,kohana_base_url,kohana_system_path,kohana_module_path,kohana_ext,kohana_application_path,kohana_front_loader_in_nav,kohana_process_all_uri,kohana_default_placement" />
+  <input type="hidden" name="page_options" value="kohana_bootstrap_path,kohana_default_id,kohana_default_action,kohana_default_controller,kohana_modules,kohana_default_time_zone,kohana_base_url,kohana_system_path,kohana_module_path,kohana_ext,kohana_application_path,kohana_front_loader_in_nav,kohana_process_all_uri,kohana_default_placement,kohana_page_template" />
 <p class="submit"><input class="button" name="submit" value="Update Kohana Options" type="submit"></p>
 
 </form>

@@ -28,7 +28,35 @@ add_filter('the_content', 'kohana_the_content_filter');
 add_filter('the_title','kohana_title_filter');
 add_filter('single_post_title','kohana_title_filter');
 add_filter('get_pages','kohana_page_filter');
-add_filter( 'plugin_row_meta', 'set_plugin_meta', 10, 2 );
+add_filter('plugin_row_meta', 'set_plugin_meta', 10, 2);
+add_filter('page_template','kohana_page_template_filter');
+
+/**
+ * Checks if a Kohana request is in progress.
+ * Must be called after kohana_request_filter has been triggered.
+ * 
+ * @return boolean
+ */
+function is_kohana_request()
+{
+	global $wp;
+	return ($wp->kohana->request != null) ? true : false;
+}
+
+/**
+ * Replaces the page_template with the one specified in kohana_page_template
+ * if this is a kohana request.
+ * @param string $template
+ * @return string
+ */
+function kohana_page_template_filter($template) {
+	if (is_kohana_request() && get_option('kohana_page_template')) {
+		return locate_template(array(get_option('kohana_page_template')));
+	}
+	return $template;
+}
+
+
 
 /**
  * If plugin has already been set up
@@ -79,6 +107,7 @@ function kohana_activate()
 	add_option('kohana_default_action', '' );
 	add_option('kohana_default_id', '' );
 	add_option('kohana_front_loader_in_nav', 0);
+	add_option('kohana_page_template', '');
 }
 
 /**
@@ -107,6 +136,7 @@ function kohana_deactivate()
 	delete_option('kohana_default_controller');
 	delete_option('kohana_default_action');
 	delete_option('kohana_default_id');
+	delete_option('kohana_page_template');
 	
 	// remove all page routes
 	$all_options = get_alloptions();
@@ -513,10 +543,10 @@ function kohana_page_request($kr)
 	{
 		if( $req->status == 404 ) {
 			global $wp_query;
-		    $wp_query->set_404();
+			$wp_query->set_404();
 			return 'Page Not Found';
 		}
-        throw $e;
+		throw $e;
 	}
 	
 	if( $req->title ){
