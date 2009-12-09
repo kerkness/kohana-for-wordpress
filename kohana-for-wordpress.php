@@ -505,7 +505,18 @@ function kohana_page_request($kr)
 	
 	$kr = ($kr=='wp_kohana_default_request') ? '' : $kr ;	
 	
-	$req = Request::instance($kr)->execute();
+	try {
+		$req = Request::instance($kr);
+		$req = $req->execute();
+	}
+	catch( Exception $e )
+	{
+		if( $req->status == 404 ) {
+			global $wp_query;
+		    $wp_query->set_404();
+			return 'Page Not Found';
+		}
+	}
 	
 	if( $req->title ){
 		$wp->kohana->title = $req->title;
