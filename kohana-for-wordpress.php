@@ -17,7 +17,7 @@ register_activation_hook( 'kohana-for-wordpress/kohana-for-wordpress.php', 'koha
 register_deactivation_hook( 'kohana-for-wordpress/kohana-for-wordpress.php', 'kohana_deactivate' );
 add_action('admin_menu', 'kohana_register_admin_menu');
 add_action('widgets_init', create_function('', 'return register_widget("KohanaWidget");'));
-
+add_action('wp_head', 'kohana_wp_head');
 
 /**
  * Register Filters
@@ -56,7 +56,15 @@ function kohana_page_template_filter($template) {
 	return $template;
 }
 
-
+/**
+ * print any extra_head html that has been assigned to the Kohana request.
+ */
+function kohana_wp_head() {
+    global $wp;
+    if (is_kohana_request() AND $wp->kohana->extra_head) {
+        print $wp->kohana->extra_head;
+    }
+}
 
 /**
  * If plugin has already been set up
@@ -552,6 +560,9 @@ function kohana_page_request($kr)
 	if( $req->title ){
 		$wp->kohana->title = $req->title;
 	}
+    if( $req->extra_head ){
+        $wp->kohana->extra_head = $req->extra_head;
+    }
 	return $req->response;	
 }
 
