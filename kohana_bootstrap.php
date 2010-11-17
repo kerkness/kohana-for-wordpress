@@ -55,15 +55,6 @@ if( ! $kohana_base_url ) {
 }
 Kohana::init(array('charset' => 'utf-8', 'base_url' => $kohana_base_url ));
 
-/**		**** Enable modules as defined in plugin settings
- * Enable modules. Modules are referenced by a relative or absolute path.
- */
-$k_mods = explode(',', get_option('kohana_modules') );
-foreach( $k_mods as $km ){
-	$mods[trim($km)] = MODPATH.trim($km);
-}
-Kohana::modules($mods);
-
 /**
 * Attach the file write to logging. Multiple writers are supported.
 */
@@ -73,6 +64,15 @@ Kohana::$log->attach(new Kohana_Log_File(APPPATH.'logs'));
 * Attach a file reader to config. Multiple readers are supported.
 */
 Kohana::$config->attach(new Kohana_Config_File);
+
+/**		**** Enable modules as defined in plugin settings
+ * Enable modules. Modules are referenced by a relative or absolute path.
+ */
+$k_mods = explode(',', get_option('kohana_modules') );
+foreach( $k_mods as $km ){
+	$mods[trim($km)] = MODPATH.trim($km);
+}
+Kohana::modules($mods);
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
