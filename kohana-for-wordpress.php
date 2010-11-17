@@ -491,8 +491,10 @@ function kohana_the_content_filter($content)
 				break;
 		}
 	}
-	
-	
+
+	// Make sure $content is a string at this point (could be a View object or anything that implements __toString())
+	$content = (string)$content;
+
 	// Look for any Kohana requests that are dropped directly into the content
 	$tag = "/\[request(.*?)\\]/";
 	$matches = array();
