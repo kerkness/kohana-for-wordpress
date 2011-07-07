@@ -544,8 +544,14 @@ function kohana_page_request($kr)
 	$kr = ($kr=='wp_kohana_default_request') ? '' : $kr ;	
 	
 	try {
-		$req = Request::instance($kr);
-		$req = $req->execute();
+		if (method_exists('Request', 'instance')) {
+			$req = Request::instance($kr);
+			$req = $req->execute();
+		} if (method_exists('Request', 'current')) {
+			$req = Request::current($kr);
+		} else {
+			throw new Exception("Unable to get request");
+		}
 	}
 	catch( Exception $e )
 	{
