@@ -26,7 +26,12 @@ spl_autoload_register(array('Kohana', 'auto_load'));
  * @see  http://docs.kohanaphp.com/features/exceptions
  * @see  http://php.net/set_exception_handler
  */
-set_exception_handler(array('Kohana', 'exception_handler'));
+if (method_exists('Kohana_Exception', 'handler')) {
+	set_exception_handler(array('Kohana_Exception', 'handler'));
+} else {
+	set_exception_handler(array('Kohana', 'exception_handler'));
+}
+
 
 /**
  * Enable Kohana error handling, converts all PHP errors to exceptions.
